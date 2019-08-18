@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div>
       <Header as="h1" className="home-header">
-        Graduation Project skeleton
+        Scot Phamy Talent
       </Header>
     </div>
   );
