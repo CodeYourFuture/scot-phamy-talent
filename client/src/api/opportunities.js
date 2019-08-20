@@ -1,5 +1,5 @@
-export const createNewOpprtunity = formEntry => {
-  return fetch("/api/newOpportunity", {
+export const createNewOpportunity = formEntry => {
+  return fetch("/api/opportunities", {
     method: "POST",
     body: JSON.stringify(formEntry),
     headers: { "Content-Type": "application/json" }

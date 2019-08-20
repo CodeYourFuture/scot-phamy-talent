@@ -2,7 +2,7 @@ const { Pool } = require("pg");
 const config = require("../../config");
 const pool = new Pool(config);
 
-const createopportunity = ({
+const createOpportunity = ({
   name,
   description,
   contactPerson,
@@ -28,7 +28,7 @@ const createopportunity = ({
         company_id,
       ],
       (error, result) => {
-        console.log("dbresult", error, result);
+        console.log("dbResult", error, result);
         if (error) {
           reject(error);
         }
@@ -39,4 +39,4 @@ const createopportunity = ({
   });
 };
 
-module.exports = { createopportunity };
+module.exports = { createOpportunity };

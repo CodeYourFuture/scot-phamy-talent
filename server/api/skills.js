@@ -3,7 +3,7 @@ const router = express.Router();
 const skills = require("../services/database/skills");
 
 /**
- * The route here will be: /cities/ (remember the prefix users is defined in api/index.js)
+ * The route here will be: /skills/ (remember the prefix users is defined in api/index.js)
  */
 
 router.get("/", (req, res) => {

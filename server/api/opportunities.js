@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const newOpportunity = require("../services/database/newOpprtunity");
+const newOpportunity = require("../services/database/opportunities");
 
 /**
  * The route here will be: /cities/ (remember the prefix users is defined in api/index.js)
@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
     company_id,
   };
   newOpportunity
-    .createopportunity(formEntries)
+    .createOpportunity(formEntries)
     .then((data) => {
       res.send({ success: true });
     })
