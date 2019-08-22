@@ -19,14 +19,14 @@ router.post("/", (req, res) => {
   const description = req.body.description;
   const industry = req.body.industry;
   const user_id = req.body.user_id;
-  let form = {
+  let companyProfile = {
     name,
     description,
     industry,
     user_id
   };
   companyRegister
-    .registerCompany(form)
+    .registerCompany(companyProfile)
     .then(data => {
       res.send({ success: true });
     })
