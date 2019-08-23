@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const opportunities = require("../services/database/opportunities");
+const { createOpportunity } = require("../services/database/opportunities");
+const {
+  newOpportunitySkills,
+} = require("../services/database/opportunitySkills");
 
 /**
  * The route here will be: /opportunities/ (remember the prefix users is defined in api/index.js)
@@ -19,40 +22,28 @@ router.post("/newOpportunity", (req, res) => {
   const skills = req.body.skills;
   const company_id = req.body.company_id;
   let formEntries = {
-    name,
-    description,
-    contactPerson,
-    telephone,
-    email,
-    city,
-    date,
-    type,
-    skills,
-    company_id,
+    name: name,
+    description: description,
+    contactPerson: contactPerson,
+    telephone: telephone,
+    email: email,
+    city: city,
+    date: date,
+    type: type,
+    skills: skills,
+    company_id: company_id,
   };
-  opportunities
-    .createOpportunity(formEntries)
+  createOpportunity(formEntries)
     .then((data) => {
-      res.send(data);
+      const opportunityId = data[0].opportunity_id;
+      return { opportunityId, skills };
     })
+    .then((SkillsAndOpportunityID) => {
+      return newOpportunitySkills(SkillsAndOpportunityID);
+    })
+    .then((data) => res.send({ success: true }))
     .catch((err) => {
       res.sendStatus(500).send({ success: false });
-      console.log(err);
-    });
-});
-
-router.get("/getOpportunityId", (req, res) => {
-  const name = req.query.name;
-  const description = req.query.description;
-
-  opportunities
-    .getOpportunityId(name, description)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.Status(500);
     });
 });
 

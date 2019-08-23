@@ -1,25 +1,27 @@
 const { Pool } = require("pg");
 const config = require("../../config");
+const pg = require("pg");
+const format = require("pg-format");
 const pool = new Pool(config);
 
 // newOpportunitySkills inserts the opportunity id and skill to a new row at opportunity_skills table
+//need to install pg-format https://www.wlaurance.com/2018/09/node-postgres-insert-multiple-rows/   to insert multiple entries
+// Using pg-format to insert multiple rows with Node Postgres
 
-const newOpportunitySkills = (skills, opportunityId) => {
-  skills.forEach((skill) => {
-    return new Promise((resolve, reject) => {
-      pool.query(
-        "INSERT INTO opportunity_skills (skill_id, opportunity_id)VALUES ($1, $2)",
-        [skill, opportunityId],
-        (error, result) => {
-          if (error) {
-            reject(error);
-            console.log(error);
-          }
-
-          resolve(result.rows);
-        },
-      );
+const newOpportunitySkills = ({ skills, opportunityId }) => {
+  const SkillsAndIdArray = skills.map((skill) => [skill, opportunityId]);
+  const query = format(
+    "INSERT INTO opportunity_skills (skill_id, opportunity_id) VALUES %L",
+    SkillsAndIdArray,
+  );
+  return new Promise((resolve, reject) => {
+    pool.query(query, (error, result) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(result.rows);
     });
   });
 };
+
 module.exports = { newOpportunitySkills };

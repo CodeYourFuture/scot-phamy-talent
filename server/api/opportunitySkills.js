@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const opportunitySkills = require("../services/database/opportunitySkills");
 
 /**
@@ -7,20 +8,16 @@ const opportunitySkills = require("../services/database/opportunitySkills");
  */
 
 router.post("/addSkillsToOpportunity", (req, res) => {
-  const skills = req.body.skillsId;
+  const skills = req.body.skills;
   const opportunityId = req.body.opportunityId;
-  // foreach rake the skills array coming from the input and divide it into single input at the table
-  skills.forEach((skill) => {
-    opportunitySkills
-      .newOpportunitySkills(skill, opportunityId)
-      .then((data) => {
-        res.send({ skillAdded: true });
-      })
-      .catch((err) => {
-        res.sendStatus(500).send({ success: false });
-        console.log(err);
-      });
-  });
+  opportunitySkills
+    .newOpportunitySkills(skills, opportunityId)
+    .then((data) => {
+      res.send({ success: true });
+    })
+    .catch((err) => {
+      res.sendStatus(500).send({ success: false });
+    });
 });
 
 module.exports = router;

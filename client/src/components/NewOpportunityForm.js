@@ -82,7 +82,7 @@ class NewOpportunityForm extends Component {
   handlePost = e => {
     e.preventDefault();
     createNewOpportunity(this.state.formEntries).then(res => {
-      this.setState({ success: res.success, message: res.message });
+      this.setState({ success: res.success });
     });
   };
 
@@ -157,7 +157,7 @@ class NewOpportunityForm extends Component {
                   <Form.Field
                     control={Input}
                     label="Telephone"
-                    // type='number'
+                    type="number"
                     placeholder="Telephone"
                     iconPosition="left"
                     name="telephone"
@@ -237,21 +237,18 @@ class NewOpportunityForm extends Component {
               />
             </Grid.Row>
             <Button primary>Post</Button>
-            <Grid.Row />
             <Grid.Row width={15}>
               {this.state.success === true ? (
-                <Message positive>
+                <Message positive size="massive">
                   <Message.Header>
-                    {this.state.message.messageHeader}
+                    Opportunity Submitted successfully
                   </Message.Header>
-                  <p>{this.state.message.messageBody}</p>
+                  <p>Waiting For approval</p>
                 </Message>
               ) : this.state.success === false ? (
                 <Message negative>
-                  <Message.Header>
-                    {this.state.message.messageHeader}
-                  </Message.Header>
-                  <p>{this.state.message.messageBody}</p>
+                  <Message.Header>Something went Wrong</Message.Header>
+                  <p>check Your Data</p>
                 </Message>
               ) : null}
             </Grid.Row>
