@@ -5,7 +5,6 @@ import {
   Icon,
   Button,
   TextArea,
-  Select,
   Message,
   Grid,
   Header
@@ -31,12 +30,14 @@ class NewOpportunityForm extends Component {
     },
     cities: [],
     skills: [],
-    success: null
+    success: null,
+    message: {}
   };
 
   getAllSkills = () => {
     getSkills().then(response => {
       this.setState({
+        citiesIsLoading: false,
         skills: response.map(skill => ({
           key: skill.skill_id,
           text: skill.name,
@@ -80,10 +81,11 @@ class NewOpportunityForm extends Component {
   }
   handlePost = e => {
     e.preventDefault();
-    createNewOpportunity(this.state.formEntries).then(res =>
-      this.setState({ success: true })
-    );
+    createNewOpportunity(this.state.formEntries).then(res => {
+      this.setState({ success: res.success, message: res.message });
+    });
   };
+
   handleChange = e => {
     const property = e.target.name;
     const value = e.target.value;
@@ -155,7 +157,7 @@ class NewOpportunityForm extends Component {
                   <Form.Field
                     control={Input}
                     label="Telephone"
-                    type="number"
+                    // type='number'
                     placeholder="Telephone"
                     iconPosition="left"
                     name="telephone"
@@ -187,11 +189,10 @@ class NewOpportunityForm extends Component {
               </Grid.Column>
               <Grid.Column width={10}>
                 <Form.Group>
-                  <Form.Field
+                  <Form.Dropdown
                     label="Location"
-                    control={Select}
                     name="city"
-                    placeholder="Location"
+                    placeholder="Select city"
                     search
                     selection
                     required
@@ -217,7 +218,7 @@ class NewOpportunityForm extends Component {
                     search
                     selection
                     required
-                    placeholder="Type of Opportunity"
+                    placeholder="Select Opportunity Type"
                     onChange={this.handleSelectOppType}
                   />
                 </Form.Group>
@@ -237,11 +238,20 @@ class NewOpportunityForm extends Component {
             </Grid.Row>
             <Button primary>Post</Button>
             <Grid.Row />
-            <Grid.Row>
+            <Grid.Row width={15}>
               {this.state.success === true ? (
                 <Message positive>
-                  <Message.Header>Opportunity submitted</Message.Header>
-                  <p>opportunity waiting for approval</p>
+                  <Message.Header>
+                    {this.state.message.messageHeader}
+                  </Message.Header>
+                  <p>{this.state.message.messageBody}</p>
+                </Message>
+              ) : this.state.success === false ? (
+                <Message negative>
+                  <Message.Header>
+                    {this.state.message.messageHeader}
+                  </Message.Header>
+                  <p>{this.state.message.messageBody}</p>
                 </Message>
               ) : null}
             </Grid.Row>

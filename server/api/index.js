@@ -6,11 +6,13 @@ const status = require("./status");
 const cities = require("./cities");
 const skills = require("./skills");
 const newOpportunity = require("./opportunities");
+const opportunitySkills = require("./opportunitySkills");
 
 router.use("/users", users);
 router.use("/status", status);
 router.use("/cities", cities);
 router.use("/skills", skills);
 router.use("/opportunities", newOpportunity);
+router.use("/opportunitySkills", opportunitySkills);
 
 module.exports = router;

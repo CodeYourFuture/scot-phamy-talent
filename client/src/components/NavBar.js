@@ -5,11 +5,11 @@ import { Menu } from "semantic-ui-react";
 class NavBar extends Component {
   state = { activeItem: "home" };
 
-  handleItemClick = ({ name }) => this.setState({ activeItem: name });
+  handleItemClick = ({ e, name }) => this.setState({ activeItem: name });
   render() {
     const activeItem = this.state;
     return (
-      <Menu tabular size="large">
+      <Menu size="large">
         <Menu.Item
           name="home"
           active={activeItem === "home"}
