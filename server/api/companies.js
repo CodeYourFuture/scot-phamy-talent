@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const companyRegister = require("../services/database/companies");
+const { createUser } = require("../services/database/users");
 
 router.get("/", (req, res) => {
   companyRegister
@@ -18,21 +19,33 @@ router.post("/", (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const industry = req.body.industry;
-  const user_id = req.body.user_id;
-  let companyProfile = {
-    name,
-    description,
-    industry,
-    user_id
-  };
-  companyRegister
-    .registerCompany(companyProfile)
+
+  const role = req.body.role;
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const user = { email: email, password: password, role: "company" };
+
+  createUser(user)
+    .then(userData => {
+      const user = userData[0];
+      const user_id = user.user_id;
+
+      return {
+        name: name,
+        description: description,
+        industry: industry,
+        role: role,
+        email: email,
+        password: password,
+        user_id: user_id
+      };
+    })
+    .then(companyProfile => {
+      return companyRegister.registerCompany(companyProfile);
+    })
     .then(data => {
       res.send({ success: true });
-    })
-    .catch(err => {
-      res.status(500).send({ success: false });
-      console.log(err);
     });
 });
 
