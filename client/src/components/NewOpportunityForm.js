@@ -22,11 +22,11 @@ class NewOpportunityForm extends Component {
       contactPerson: "",
       telephone: "",
       email: "",
-      city: Number,
+      city: null,
       date: "",
       type: "",
       skills: [],
-      company_id: 1
+      company_id: 1 // hardCoded
     },
     cities: [],
     skills: [],
@@ -37,7 +37,6 @@ class NewOpportunityForm extends Component {
   getAllSkills = () => {
     getSkills().then(response => {
       this.setState({
-        citiesIsLoading: false,
         skills: response.map(skill => ({
           key: skill.skill_id,
           text: skill.name,
@@ -83,6 +82,27 @@ class NewOpportunityForm extends Component {
     e.preventDefault();
     createNewOpportunity(this.state.formEntries).then(res => {
       this.setState({ success: res.success });
+      if (res.success === true) {
+        console.log("mesaeg", this.state.success);
+        this.clearForm();
+      }
+    });
+  };
+
+  clearForm = () => {
+    this.setState({
+      formEntries: {
+        name: "",
+        description: "",
+        contactPerson: "",
+        telephone: "",
+        email: "",
+        city: null,
+        date: "",
+        type: "",
+        skills: [],
+        company_id: 1 // hardCoded
+      }
     });
   };
 
@@ -96,6 +116,8 @@ class NewOpportunityForm extends Component {
     });
   };
   render() {
+    console.log(this.state.formEntries);
+
     return (
       <div style={{ margin: "10px" }}>
         <Form onSubmit={this.handlePost}>
@@ -119,6 +141,7 @@ class NewOpportunityForm extends Component {
                   iconPosition="left"
                   placeholder="Title"
                   required
+                  value={this.state.formEntries.name}
                   name="name"
                   onChange={this.handleChange}
                 >
@@ -130,6 +153,7 @@ class NewOpportunityForm extends Component {
                   control={TextArea}
                   placeholder="opportunity Details"
                   name="description"
+                  value={this.state.formEntries.description}
                   required
                   onChange={this.handleChange}
                 />
@@ -148,6 +172,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Contact Person"
                     iconPosition="left"
                     name="contactPerson"
+                    value={this.state.formEntries.contactPerson}
                     required
                     onChange={this.handleChange}
                   >
@@ -161,6 +186,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Telephone"
                     iconPosition="left"
                     name="telephone"
+                    value={this.state.formEntries.telephone}
                     required
                     onChange={this.handleChange}
                   >
@@ -174,6 +200,7 @@ class NewOpportunityForm extends Component {
                     iconPosition="left"
                     name="email"
                     type="email"
+                    value={this.state.formEntries.email}
                     required
                     onChange={this.handleChange}
                   >
@@ -196,6 +223,7 @@ class NewOpportunityForm extends Component {
                     search
                     selection
                     required
+                    value={this.state.formEntries.city}
                     options={this.state.cities}
                     onChange={this.handleSelectCity}
                   />
@@ -206,6 +234,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Expiry date"
                     iconPosition="left"
                     required
+                    value={this.state.formEntries.date}
                     name="date"
                     onChange={this.handleChange}
                   >
@@ -217,6 +246,7 @@ class NewOpportunityForm extends Component {
                     options={opportunityType}
                     search
                     selection
+                    value={this.state.formEntries.type}
                     required
                     placeholder="Select Opportunity Type"
                     onChange={this.handleSelectOppType}
@@ -233,24 +263,31 @@ class NewOpportunityForm extends Component {
                 multiple
                 selection
                 required
+                value={this.state.formEntries.skills}
                 placeholder="Select Skills"
               />
             </Grid.Row>
-            <Button primary>Post</Button>
+            <Button
+              primary
+              onClick={this.state.success === true ? this.clearForm : null}
+            >
+              Post
+            </Button>
             <Grid.Row width={15}>
-              {this.state.success === true ? (
+              {this.state.success === true && (
                 <Message positive size="massive">
                   <Message.Header>
                     Opportunity Submitted successfully
                   </Message.Header>
                   <p>Waiting For approval</p>
                 </Message>
-              ) : this.state.success === false ? (
-                <Message negative>
+              )}
+              {this.state.success === false && (
+                <Message negative size="massive">
                   <Message.Header>Something went Wrong</Message.Header>
                   <p>check Your Data</p>
                 </Message>
-              ) : null}
+              )}
             </Grid.Row>
           </Grid>
         </Form>

@@ -1,6 +1,5 @@
 const { Pool } = require("pg");
 const config = require("../../config");
-const pg = require("pg");
 const format = require("pg-format");
 const pool = new Pool(config);
 
