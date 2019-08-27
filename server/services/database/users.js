@@ -41,7 +41,6 @@ const createUser = ({ role, email, password }) => {
           console.log(error);
           reject(error);
         }
-        console.log("result", result);
         resolve(result.rows);
       }
     );
