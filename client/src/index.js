@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import NavBar from "./components/NavBar";
 import NewOpportunityForm from "./components/NewOpportunityForm";
 import ApplicantProfile from "./components/ApplicantProfile";
+import NewCompanyForm from "./components/NewCompanyForm";
 
 const Routes = () => {
   return (
@@ -31,10 +32,11 @@ const Routes = () => {
                 component={ApplicantProfile}
               />
               <Route
-                Path="/create-opportunity"
+                path="/create-opportunity"
                 exact
                 component={NewOpportunityForm}
               />
+              <Route path="/company-profile" exact component={NewCompanyForm} />
             </Switch>
           </div>
         </Grid>

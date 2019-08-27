@@ -21,7 +21,8 @@ const registerCompany = ({ name, description, industry, user_id }) => {
       [name, description, industry, user_id],
       (error, result) => {
         if (error) {
-          reject(error);
+          console.error(error);
+          return reject(error);
         }
         resolve(result.rows);
       }
