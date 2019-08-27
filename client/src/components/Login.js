@@ -1,15 +1,6 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  List,
-  Message,
-  Label,
-  Segment,
-  Image
-} from "semantic-ui-react";
+import { Button, Form, Grid, Header, List, Message } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import { signApi } from "../api/auth";
 
 export default class Login extends Component {
@@ -90,13 +81,17 @@ export default class Login extends Component {
               </Button>
               {this.state.error ? <div>Wrong Info. Try Again</div> : null}
             </Form>
-            <List>
-              <List.Item>
+            <List divided horizontal>
+              <List.Item as="a">
                 <Message>
-                  <List.Content as="a">Create account</List.Content>
+                  <List.Content as={Link} to="/create-account">
+                    Create Account
+                  </List.Content>
                 </Message>
                 <Message>
-                  <List.Content as="a">Forgot password</List.Content>
+                  <List.Content as={Link} to="/forgot-password">
+                    Forgot password?
+                  </List.Content>
                 </Message>
               </List.Item>
             </List>
