@@ -19,6 +19,6 @@ router.use("/company-profile", companyProfile);
 router.use("/opportunities", newOpportunity);
 router.use("/companies", companyRegister);
 router.use("/opportunitySkills", opportunitySkills);
-router.use("/applicant-profile", applicantProfile);
+router.use("/applicantProfile", applicantProfile);
 
 module.exports = router;

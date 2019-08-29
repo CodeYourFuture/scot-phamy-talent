@@ -34,7 +34,7 @@ const getUserByEmail = email => {
 const createUser = ({ role, email, password }) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "INSERT INTO users (role , email, password) values ($1, $2,$3) RETURNING user_id",
+      "INSERT INTO users (role , email, password) values ($1, $2, $3) RETURNING user_id",
       [role, email, password],
       (error, result) => {
         if (error) {
