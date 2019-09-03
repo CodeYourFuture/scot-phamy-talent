@@ -12,7 +12,7 @@ const createOpportunity = ({
   city,
   date,
   type,
-  company_id,
+  company_id
 }) => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -29,14 +29,14 @@ const createOpportunity = ({
         city,
         date,
         type,
-        company_id,
+        company_id
       ],
       (error, result) => {
         if (error) {
           return reject(error);
         }
         resolve(result.rows);
-      },
+      }
     );
   });
 };
@@ -64,7 +64,7 @@ const getOpportunitiesForList = () => {
         } else {
           resolve(result.rows);
         }
-      },
+      }
     );
   });
 };

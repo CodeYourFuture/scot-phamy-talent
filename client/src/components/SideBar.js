@@ -20,7 +20,7 @@ export default ({
       visible={visible}
       width="thin"
       style={{
-        top: "48px"
+        top: "50px"
       }}
     >
       <Menu.Item
@@ -44,11 +44,11 @@ export default ({
         About
       </Menu.Item>
       <Menu.Item
-        name="Opportunity List"
-        active={activeItem === "Opportunity List"}
+        name="Opportunities"
+        active={activeItem === "Opportunities"}
         onClick={handleItemClick}
         as={Link}
-        to="/opportunity-list"
+        to="/opportunities"
       >
         <Icon name="clipboard list"></Icon>
         Opportunity List
@@ -74,6 +74,13 @@ export default ({
         Create Opportunity
       </Menu.Item>
       <Menu.Item
+        name="company-profile"
+        active={activeItem === "company-profile"}
+        onClick={handleItemClick}
+        as={Link}
+        to="/company-profile"
+      />
+      <Menu.Item
         name="Applicant Profile"
         onClick={handleItemClick}
         as={Link}
@@ -96,7 +103,7 @@ export default ({
           to="/logout"
         >
           <Icon name="log out"></Icon>
-          Log Out
+          Logout
         </Menu.Item>
       ) : (
         <Menu.Menu>
@@ -118,7 +125,7 @@ export default ({
             to="/main-register"
           >
             <Icon name="signup"></Icon>
-            Sign In
+            Sign up
           </Menu.Item>
         </Menu.Menu>
       )}

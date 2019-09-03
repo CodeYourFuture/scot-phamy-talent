@@ -52,9 +52,6 @@ INSERT INTO company_profile (name, description, industry, user_id)
 INSERT INTO opportunities (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)
     VALUES ('Volunteer with cyf', 'Two months in voluntary work', 'youssef', '0444445555', 'yan@cyf.com', 1, '2020-01-15', 'voluntary work', 1);
 
-INSERT INTO opportunities (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)
-    VALUES ('Volunteer with cyf', 'Two months in voluntary work', 'youssef', '0444445555', 'yan@cyf.com', 1, '2020-01-15', 'voluntary work', 1);
-
 INSERT INTO skills (name)
     VALUES ('JavaScript');
 

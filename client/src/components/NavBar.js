@@ -5,7 +5,10 @@ import SideBarMenu from "./SideBar";
 class NavBar extends Component {
   state = {
     visible: false,
-    activeItem: "home"
+    activeItem:
+      window.location.pathname === "/"
+        ? "home"
+        : window.location.pathname.substr(1)
   };
   handleItemClick = (e, { name }) =>
     this.setState({ activeItem: name, visible: false });
@@ -16,7 +19,13 @@ class NavBar extends Component {
     document.location.reload();
   };
   handleHideClick = () => this.setState({ visible: false });
-  handleShowClick = () => this.setState({ visible: true });
+  handleShowClick = () =>
+    this.setState(prevState => {
+      const visibleState = prevState.visible;
+      return {
+        visible: !visibleState
+      };
+    });
   handleSidebarHide = () => this.setState({ visible: false });
 
   render() {
@@ -31,9 +40,7 @@ class NavBar extends Component {
             </Button>
           </Menu.Item>
           <Menu.Item position="right">
-            <Button inverted basic disabled>
-              {activeItem}
-            </Button>
+            <Menu.Header as="h5">{activeItem}</Menu.Header>
           </Menu.Item>
           {localStorage.getItem("token") ? (
             <Menu.Item
@@ -41,7 +48,7 @@ class NavBar extends Component {
               active={activeItem === "Logout"}
               onClick={event => {
                 this.logout(event);
-                this.handleItemClick(event);
+                handleItemClick(event);
               }}
               as={Link}
               position="right"
@@ -53,7 +60,7 @@ class NavBar extends Component {
             <Menu.Item
               name="Sign In"
               active={activeItem === "Sign In"}
-              onClick={this.handleItemClick}
+              onClick={handleItemClick}
               as={Link}
               to="/login"
               position="right"
