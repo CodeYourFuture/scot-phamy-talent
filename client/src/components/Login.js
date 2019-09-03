@@ -83,12 +83,20 @@ export default class Login extends Component {
             </Form>
             <List divided horizontal>
               <List.Item as="a">
-                <List.Content as={Link} to="/main-register">
-                  Create an Account?
-                </List.Content>
-                <List.Content as={Link} to="/reset-password">
-                  Forgot your password?
-                </List.Content>
+                <Message>
+                  <List.Content>
+                    <List.Header as={Link} to="/main-register">
+                      Create account
+                    </List.Header>
+                  </List.Content>
+                </Message>
+                <Message>
+                  <List.Content>
+                    <List.Content as={Link} to="/reset-password">
+                      Forgot password
+                    </List.Content>
+                  </List.Content>
+                </Message>
               </List.Item>
             </List>
           </Grid.Column>
