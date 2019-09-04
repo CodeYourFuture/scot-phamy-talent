@@ -14,38 +14,37 @@ import {
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
 import { createNewApplicantUserAndProfile } from "../api/applicantProfile";
+import Password from "./Password";
+
+import validatePassword from "../utils/passwordValidation";
+
+const ValidatedFormField = props => {
+  return (
+    <Form.Field {...props}>
+      {props.children}
+      {props.valid === false && <p>{props.validationMessage}</p>}
+    </Form.Field>
+  );
+};
 class ApplicantRegister extends Component {
   state = {
     applicantEntries: {
       role: "applicant",
       name: "",
       email: "",
-      password: "",
-      confirmPassword: "",
       about: "",
+      password: "",
       city: null,
       skills: [],
       cvLink: "",
       value: null
     },
-    passwordValidation: {
-      lengthValid: false,
-      matching: false,
-      active: false,
-      eightCharactersColor: "red",
-      matchColor: "red",
-      containUppercaseColor: "red",
-      containLowercaseColor: "red",
-      containNumberColor: "red",
-      containUppercase: false,
-      containLowercase: false,
-      containNumber: false
-    },
     successServerStatus: false,
     openSubmitStatusMsg: false,
     skillsData: [],
     citiesData: [],
-    checkboxErr: false
+    checkboxErr: false,
+    formErrors: {}
   };
 
   //Getting Data
@@ -92,9 +91,9 @@ class ApplicantRegister extends Component {
       applicantEntries: { ...this.state.applicantEntries, city: selectedCity }
     });
   };
-  handleChange = e => {
-    const property = e.target.name;
-    const value = e.target.value;
+  handleChange = event => {
+    const { target } = event;
+    const { name: property, value } = target;
     this.setState(function(prevState) {
       const newEntries = prevState.applicantEntries;
       newEntries[property] = value;
@@ -103,14 +102,11 @@ class ApplicantRegister extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    if (
-      this.state.applicantEntries.value !== null &&
-      this.state.passwordValidation.lengthValid &&
-      this.state.passwordValidation.matching &&
-      this.state.passwordValidation.containUppercase &&
-      this.state.passwordValidation.containLowercase &&
-      this.state.passwordValidation.containNumber
-    ) {
+    const result = validatePassword(this.state.applicantEntries);
+    const { valid } = result;
+    // const valid = result.valid
+
+    if (valid) {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
         res => {
           this.setState({ successServerStatus: res.success });
@@ -121,11 +117,7 @@ class ApplicantRegister extends Component {
         }
       );
     } else {
-      return this.setState({
-        successServerStatus: false,
-        openSubmitStatusMsg: true,
-        checkboxErr: true
-      });
+      this.setState({ formErrors: result });
     }
   };
 
@@ -152,193 +144,32 @@ class ApplicantRegister extends Component {
         cvLink: "",
         value: null,
         checked: null
-      },
-      passwordValidation: {
-        lengthValid: null,
-        matching: null,
-        active: false,
-        eightCharactersColor: "red",
-        matchColor: "red",
-        containUppercaseColor: "red",
-        containLowercaseColor: "red",
-        containNumberColor: "red",
-        containUppercase: null,
-        containLowercase: null,
-        containNumber: null
       }
     });
   };
-  //Validations  this validation is not part of the card and it is not perfect may need help to improve it
-  passwordValidation = (password, confirmPassword) => {
-    this.isActive(this.state.applicantEntries.password);
-    this.isPasswordMatch(password, confirmPassword);
-    this.isConfirmNumber(password, confirmPassword);
-    this.isConfirmLowercase(password, confirmPassword);
-    this.isPasswordTooShort(password, confirmPassword);
-    this.isConfirmUppercase(password, confirmPassword);
+  getPassword = password => {
+    console.log("====>>>>>", password);
+    return this.setState({
+      applicantEntries: { ...this.state.applicantEntries, password }
+    });
   };
-  isActive = password => {
-    if (password.length > 0) {
-      this.setState({
-        passwordValidation: { ...this.state.passwordValidation, active: true }
-      });
-    }
-  };
-  isPasswordTooShort = (password, confirmPassword) => {
-    if (password.length >= 6 && confirmPassword.length >= 6) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          lengthValid: true,
-          eightCharactersColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          lengthValid: false,
-          eightCharactersColor: "red"
-        }
-      });
-    }
-  };
-  isPasswordMatch = (password, confirmPassword) => {
-    if (password === confirmPassword) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          matching: true,
-          matchColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          matching: false,
-          matchColor: "red"
-        }
-      });
-    }
-  };
-  isConfirmUppercase = (password, confirmPassword) => {
-    if (
-      this.isPasswordContainUpperCase(password) &&
-      this.isPasswordContainUpperCase(confirmPassword)
-    ) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containUppercase: true,
-          containUppercaseColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containUppercase: false,
-          containUppercaseColor: "red"
-        }
-      });
-    }
-  };
-  isConfirmLowercase = (password, confirmPassword) => {
-    if (
-      this.isPasswordContainLowerCase(password) &&
-      this.isPasswordContainLowerCase(confirmPassword)
-    ) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containLowercase: true,
-          containLowercaseColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containLowercase: false,
-          containLowercaseColor: "red"
-        }
-      });
-    }
-  };
-  isConfirmNumber = (password, confirmPassword) => {
-    if (
-      this.isPasswordContainNumber(password) &&
-      this.isPasswordContainNumber(confirmPassword)
-    ) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containNumber: true,
-          containNumberColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containNumber: false,
-          containNumberColor: "red"
-        }
-      });
-    }
-  };
-  isPasswordContainLowerCase = password => {
-    const newReg = /(?=.*[a-z])[a-z]/g;
-    const pas = newReg.test(password);
 
-    return pas;
-  };
-  isPasswordContainUpperCase = password => {
-    const newReg = /(?=.*[A-Z])[A-Z]/g;
-    const pas = newReg.test(password);
-
-    return pas;
-  };
-  isPasswordContainNumber = password => {
-    const newReg = /(?=.*[0-9])[0-9]/g;
-    const pas = newReg.test(password);
-
-    return pas;
-  };
-  isCheckBoxChecked = () => {
-    if (
-      this.state.applicantEntries.value !== "Yes" ||
-      this.state.applicantEntries.value !== "No"
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
   render() {
+    console.log(this.state.applicantEntries);
     const {
       name,
       email,
-      password,
-      confirmPassword,
       about,
       city,
       skills,
       cvLink,
       value
     } = this.state.applicantEntries;
-    const {
-      active,
-      eightCharactersColor,
-      matchColor,
-      containUppercaseColor,
-      containLowercaseColor,
-      containNumberColor
-    } = this.state.passwordValidation;
+    console.log(this.state.applicantEntries.password);
+
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} validate>
           <Grid centered stackable columns={2}>
             <Grid.Row>
               <Grid.Column>
@@ -351,7 +182,9 @@ class ApplicantRegister extends Component {
 
             <Grid.Row centered>
               <Grid.Column>
-                <Form.Field
+                <ValidatedFormField
+                  valid={this.state.formErrors.nameValid}
+                  validationMessage="NAME IS NOT VALID"
                   control={Input}
                   label="Name"
                   placeholder="Name"
@@ -363,7 +196,7 @@ class ApplicantRegister extends Component {
                 >
                   <Icon name="user" color="blue" />
                   <input />
-                </Form.Field>
+                </ValidatedFormField>
                 <Form.Field
                   control={Input}
                   label="Email"
@@ -378,57 +211,7 @@ class ApplicantRegister extends Component {
                   <Icon name="at" color="blue" />
                   <input />
                 </Form.Field>
-                <Form.Field
-                  control={Input}
-                  label="Password"
-                  value={password}
-                  type="password"
-                  placeholder="Password"
-                  iconPosition="left"
-                  name="password"
-                  required
-                  onChange={this.handleChange}
-                >
-                  <Icon name="lock" color="blue" />
-                  <input />
-                </Form.Field>
-
-                <Form.Field
-                  control={Input}
-                  label="Confirm Password"
-                  value={confirmPassword}
-                  type="password"
-                  placeholder="Confirm Password"
-                  iconPosition="left"
-                  name="confirmPassword"
-                  required
-                  onKeyUp={() =>
-                    setTimeout(() => {
-                      this.passwordValidation(password, confirmPassword);
-                    }, 50)
-                  }
-                  onChange={this.handleChange}
-                >
-                  <Icon name="undo alternate" color="blue" />
-                  <input />
-                </Form.Field>
-                {active === false ? null : (
-                  <Message>
-                    <p style={{ color: eightCharactersColor }}>
-                      password Must be at least 8 characters
-                    </p>
-                    <p style={{ color: matchColor }}>Matching Passwords</p>
-                    <p style={{ color: containUppercaseColor }}>
-                      Password Contain at least 1 Uppercase letter
-                    </p>
-                    <p style={{ color: containLowercaseColor }}>
-                      Password Contain at least 1 Lowercase letter
-                    </p>
-                    <p style={{ color: containNumberColor }}>
-                      Password Contain at least 1 Number letter
-                    </p>
-                  </Message>
-                )}
+                <Password getPassword={this.getPassword} />
                 <Form.Field
                   label="About me"
                   control={TextArea}

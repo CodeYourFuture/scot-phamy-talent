@@ -107,7 +107,7 @@ class OpportunitiesList extends Component {
     });
   };
   render() {
-    console.log(this.state.selectedJobType);
+    console.log(this.state.OpportunitiesList);
     const { searchKeyWord, cities, skills } = this.state;
     return (
       <div>
