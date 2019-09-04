@@ -15,6 +15,17 @@ import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
 import { createNewApplicantUserAndProfile } from "../api/applicantProfile";
 import Password from "./Password";
+
+import validatePassword from "../utils/passwordValidation";
+
+const ValidatedFormField = props => {
+  return (
+    <Form.Field {...props}>
+      {props.children}
+      {props.valid === false && <p>{props.validationMessage}</p>}
+    </Form.Field>
+  );
+};
 class ApplicantRegister extends Component {
   state = {
     applicantEntries: {
@@ -32,7 +43,8 @@ class ApplicantRegister extends Component {
     openSubmitStatusMsg: false,
     skillsData: [],
     citiesData: [],
-    checkboxErr: false
+    checkboxErr: false,
+    formErrors: {}
   };
 
   //Getting Data
@@ -90,13 +102,23 @@ class ApplicantRegister extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    createNewApplicantUserAndProfile(this.state.applicantEntries).then(res => {
-      this.setState({ successServerStatus: res.success });
-      if (this.state.successServerStatus) {
-        this.setState({ openSubmitStatusMsg: true });
-        this.clearForm();
-      }
-    });
+    const result = validatePassword(this.state.applicantEntries);
+    const { valid } = result;
+    // const valid = result.valid
+
+    if (valid) {
+      createNewApplicantUserAndProfile(this.state.applicantEntries).then(
+        res => {
+          this.setState({ successServerStatus: res.success });
+          if (this.state.successServerStatus) {
+            this.setState({ openSubmitStatusMsg: true });
+            this.clearForm();
+          }
+        }
+      );
+    } else {
+      this.setState({ formErrors: result });
+    }
   };
 
   handleChangeCheckBox = (e, { value }) =>
@@ -160,7 +182,9 @@ class ApplicantRegister extends Component {
 
             <Grid.Row centered>
               <Grid.Column>
-                <Form.Field
+                <ValidatedFormField
+                  valid={this.state.formErrors.nameValid}
+                  validationMessage="NAME IS NOT VALID"
                   control={Input}
                   label="Name"
                   placeholder="Name"
@@ -172,7 +196,7 @@ class ApplicantRegister extends Component {
                 >
                   <Icon name="user" color="blue" />
                   <input />
-                </Form.Field>
+                </ValidatedFormField>
                 <Form.Field
                   control={Input}
                   label="Email"
