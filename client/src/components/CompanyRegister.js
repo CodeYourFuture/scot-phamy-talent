@@ -32,7 +32,6 @@ class CompanyRegister extends Component {
 
     companyRegister(this.state.companyProfile)
       .then(data => {
-        console.log(data);
         if (data.success) {
           this.setState({
             companyProfile: {
@@ -50,12 +49,12 @@ class CompanyRegister extends Component {
         this.resetForm(data.success);
       })
       .catch(err => {
-        this.setState({ success: false, error: err });
+        this.setState({ success: false, error: err || "error" });
       });
   };
 
   handleIndustry = (event, data) => {
-    const selectedIndustries = data.value;
+    const { value: selectedIndustries } = data;
     this.setState({
       companyProfile: {
         ...this.state.companyProfile,
@@ -77,8 +76,9 @@ class CompanyRegister extends Component {
     });
   };
   handleChange = event => {
-    const property = event.target.name;
-    const value = event.target.value;
+    const { target } = event;
+    const { name: property } = target;
+    const { value } = target;
     this.setState(function(prevState) {
       const newEntries = prevState.companyProfile;
       newEntries[property] = value;
@@ -86,8 +86,6 @@ class CompanyRegister extends Component {
     });
   };
   render() {
-    console.log(this.state.companyProfile);
-
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -159,12 +157,7 @@ class CompanyRegister extends Component {
                     onChange={this.handleIndustry}
                   />
                 </Form.Field>
-                <Button
-                  type="submit"
-                  primary
-                  fluid
-                  // onClick={this.state.success === true ? this.resetForm : null}
-                >
+                <Button type="submit" primary fluid>
                   Submit
                 </Button>
               </Grid.Column>
