@@ -33,8 +33,7 @@ class ApplicantRegister extends Component {
     successServerStatus: false,
     openSubmitStatusMsg: false,
     skillsData: [],
-    citiesData: [],
-    checkboxErr: false
+    citiesData: []
   };
 
   //Getting Data
@@ -81,9 +80,9 @@ class ApplicantRegister extends Component {
       applicantEntries: { ...this.state.applicantEntries, city: selectedCity }
     });
   };
-  handleChange = e => {
-    const property = e.target.name;
-    const value = e.target.value;
+  handleChange = event => {
+    const { target } = event;
+    const { name: property, value } = target;
     this.setState(function(prevState) {
       const newEntries = prevState.applicantEntries;
       newEntries[property] = value;
@@ -267,7 +266,6 @@ class ApplicantRegister extends Component {
                   required
                   onChange={this.handleChange}
                 />
-
                 <Form.Dropdown
                   label="Location"
                   name="city"
@@ -315,7 +313,6 @@ class ApplicantRegister extends Component {
                   <Icon name="linkify" color="blue" />
                   <input />
                 </Form.Field>
-
                 <Header as="h4">Do you have the right to work? </Header>
                 <Form.Group inline required>
                   {" "}
@@ -342,9 +339,6 @@ class ApplicantRegister extends Component {
                   ) : (
                     ""
                   )}
-                  {this.state.checkboxErr ? (
-                    <Message> you have to choose</Message>
-                  ) : null}
                 </Form.Group>
                 <Form.Button fluid lapel="Submit" primary>
                   Sign Up
