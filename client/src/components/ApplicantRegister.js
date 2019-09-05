@@ -26,20 +26,7 @@ class ApplicantRegister extends Component {
       city: null,
       skills: [],
       cvLink: "",
-      value: null
-    },
-    passwordValidation: {
-      lengthValid: false,
-      matching: false,
-      active: false,
-      eightCharactersColor: "red",
-      matchColor: "red",
-      containUppercaseColor: "red",
-      containLowercaseColor: "red",
-      containNumberColor: "red",
-      containUppercase: false,
-      containLowercase: false,
-      containNumber: false
+      rightToWork: null
     },
     successServerStatus: false,
     openSubmitStatusMsg: false,
@@ -133,7 +120,7 @@ class ApplicantRegister extends Component {
     this.setState({
       applicantEntries: {
         ...this.state.applicantEntries,
-        value
+        rightToWork: value
       },
       checkboxErr: false
     });
@@ -150,171 +137,10 @@ class ApplicantRegister extends Component {
         city: null,
         skills: [],
         cvLink: "",
-        value: null,
+        rightToWork: null,
         checked: null
-      },
-      passwordValidation: {
-        lengthValid: null,
-        matching: null,
-        active: false,
-        eightCharactersColor: "red",
-        matchColor: "red",
-        containUppercaseColor: "red",
-        containLowercaseColor: "red",
-        containNumberColor: "red",
-        containUppercase: null,
-        containLowercase: null,
-        containNumber: null
       }
     });
-  };
-  //Validations  this validation is not part of the card and it is not perfect may need help to improve it
-  passwordValidation = (password, confirmPassword) => {
-    this.isActive(this.state.applicantEntries.password);
-    this.isPasswordMatch(password, confirmPassword);
-    this.isConfirmNumber(password, confirmPassword);
-    this.isConfirmLowercase(password, confirmPassword);
-    this.isPasswordTooShort(password, confirmPassword);
-    this.isConfirmUppercase(password, confirmPassword);
-  };
-  isActive = password => {
-    if (password.length > 0) {
-      this.setState({
-        passwordValidation: { ...this.state.passwordValidation, active: true }
-      });
-    }
-  };
-  isPasswordTooShort = (password, confirmPassword) => {
-    if (password.length >= 6 && confirmPassword.length >= 6) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          lengthValid: true,
-          eightCharactersColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          lengthValid: false,
-          eightCharactersColor: "red"
-        }
-      });
-    }
-  };
-  isPasswordMatch = (password, confirmPassword) => {
-    if (password === confirmPassword) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          matching: true,
-          matchColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          matching: false,
-          matchColor: "red"
-        }
-      });
-    }
-  };
-  isConfirmUppercase = (password, confirmPassword) => {
-    if (
-      this.isPasswordContainUpperCase(password) &&
-      this.isPasswordContainUpperCase(confirmPassword)
-    ) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containUppercase: true,
-          containUppercaseColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containUppercase: false,
-          containUppercaseColor: "red"
-        }
-      });
-    }
-  };
-  isConfirmLowercase = (password, confirmPassword) => {
-    if (
-      this.isPasswordContainLowerCase(password) &&
-      this.isPasswordContainLowerCase(confirmPassword)
-    ) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containLowercase: true,
-          containLowercaseColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containLowercase: false,
-          containLowercaseColor: "red"
-        }
-      });
-    }
-  };
-  isConfirmNumber = (password, confirmPassword) => {
-    if (
-      this.isPasswordContainNumber(password) &&
-      this.isPasswordContainNumber(confirmPassword)
-    ) {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containNumber: true,
-          containNumberColor: "green"
-        }
-      });
-    } else {
-      return this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          containNumber: false,
-          containNumberColor: "red"
-        }
-      });
-    }
-  };
-  isPasswordContainLowerCase = password => {
-    const newReg = /(?=.*[a-z])[a-z]/g;
-    const pas = newReg.test(password);
-
-    return pas;
-  };
-  isPasswordContainUpperCase = password => {
-    const newReg = /(?=.*[A-Z])[A-Z]/g;
-    const pas = newReg.test(password);
-
-    return pas;
-  };
-  isPasswordContainNumber = password => {
-    const newReg = /(?=.*[0-9])[0-9]/g;
-    const pas = newReg.test(password);
-
-    return pas;
-  };
-  isCheckBoxChecked = () => {
-    if (
-      this.state.applicantEntries.value !== "Yes" ||
-      this.state.applicantEntries.value !== "No"
-    ) {
-      return true;
-    } else {
-      return false;
-    }
   };
   render() {
     const {
@@ -326,16 +152,8 @@ class ApplicantRegister extends Component {
       city,
       skills,
       cvLink,
-      value
+      rightToWork
     } = this.state.applicantEntries;
-    const {
-      active,
-      eightCharactersColor,
-      matchColor,
-      containUppercaseColor,
-      containLowercaseColor,
-      containNumberColor
-    } = this.state.passwordValidation;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -402,33 +220,12 @@ class ApplicantRegister extends Component {
                   iconPosition="left"
                   name="confirmPassword"
                   required
-                  onKeyUp={() =>
-                    setTimeout(() => {
-                      this.passwordValidation(password, confirmPassword);
-                    }, 50)
-                  }
                   onChange={this.handleChange}
                 >
                   <Icon name="undo alternate" color="blue" />
                   <input />
                 </Form.Field>
-                {active === false ? null : (
-                  <Message>
-                    <p style={{ color: eightCharactersColor }}>
-                      password Must be at least 8 characters
-                    </p>
-                    <p style={{ color: matchColor }}>Matching Passwords</p>
-                    <p style={{ color: containUppercaseColor }}>
-                      Password Contain at least 1 Uppercase letter
-                    </p>
-                    <p style={{ color: containLowercaseColor }}>
-                      Password Contain at least 1 Lowercase letter
-                    </p>
-                    <p style={{ color: containNumberColor }}>
-                      Password Contain at least 1 Number letter
-                    </p>
-                  </Message>
-                )}
+
                 <Form.Field
                   label="About me"
                   control={TextArea}
@@ -438,6 +235,7 @@ class ApplicantRegister extends Component {
                   required
                   onChange={this.handleChange}
                 />
+
                 <Form.Dropdown
                   label="Location"
                   name="city"
@@ -449,6 +247,7 @@ class ApplicantRegister extends Component {
                   options={this.state.citiesData}
                   onChange={this.handleSelectCity}
                 />
+
                 <Form.Dropdown
                   label="Skills"
                   onChange={this.handleSelectSkill}
@@ -474,6 +273,7 @@ class ApplicantRegister extends Component {
                   <Icon name="linkify" color="blue" />
                   <input />
                 </Form.Field>
+
                 <Header as="h4">Do you have the right to work? </Header>
                 <Form.Group inline required>
                   {" "}
@@ -482,7 +282,7 @@ class ApplicantRegister extends Component {
                       label="Yes"
                       name="radioGroup"
                       value="Yes"
-                      checked={value === "Yes"}
+                      checked={rightToWork === "Yes"}
                       onChange={this.handleChangeCheckBox}
                     />
                   </Form.Field>
@@ -491,7 +291,7 @@ class ApplicantRegister extends Component {
                       label="No"
                       name="radioGroup"
                       value="No"
-                      checked={value === "No"}
+                      checked={rightToWork === "No"}
                       onChange={this.handleChangeCheckBox}
                     />
                   </Form.Field>
