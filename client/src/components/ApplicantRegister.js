@@ -14,6 +14,7 @@ import {
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
 import { createNewApplicantUserAndProfile } from "../api/applicantProfile";
+import validateForm from "../utils/formValidation";
 class ApplicantRegister extends Component {
   state = {
     applicantEntries: {
@@ -28,6 +29,7 @@ class ApplicantRegister extends Component {
       cvLink: "",
       rightToWork: null
     },
+    formErrors: {},
     successServerStatus: false,
     openSubmitStatusMsg: false,
     skillsData: [],
@@ -90,28 +92,26 @@ class ApplicantRegister extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    if (
-      this.state.applicantEntries.value !== null &&
-      this.state.passwordValidation.lengthValid &&
-      this.state.passwordValidation.matching &&
-      this.state.passwordValidation.containUppercase &&
-      this.state.passwordValidation.containLowercase &&
-      this.state.passwordValidation.containNumber
-    ) {
+    const result = validateForm(this.state.applicantEntries);
+    const { valid } = result;
+    if (valid) {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
         res => {
           this.setState({ successServerStatus: res.success });
           if (this.state.successServerStatus) {
             this.setState({ openSubmitStatusMsg: true });
             this.clearForm();
+          } else {
+            return this.setState({
+              successServerStatus: false,
+              openSubmitStatusMsg: true
+            });
           }
         }
       );
     } else {
       return this.setState({
-        successServerStatus: false,
-        openSubmitStatusMsg: true,
-        checkboxErr: true
+        formErrors: result
       });
     }
   };
@@ -154,6 +154,7 @@ class ApplicantRegister extends Component {
       cvLink,
       rightToWork
     } = this.state.applicantEntries;
+    const { formErrors } = this.state;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -210,7 +211,6 @@ class ApplicantRegister extends Component {
                   <Icon name="lock" color="blue" />
                   <input />
                 </Form.Field>
-
                 <Form.Field
                   control={Input}
                   label="Confirm Password"
@@ -225,7 +225,39 @@ class ApplicantRegister extends Component {
                   <Icon name="undo alternate" color="blue" />
                   <input />
                 </Form.Field>
-
+                {formErrors.passwordLength === false ? (
+                  <Message negative>
+                    Password Must Be atleast 8 Characters
+                  </Message>
+                ) : (
+                  ""
+                )}
+                {formErrors.passwordIsMatching === false ? (
+                  <Message negative>Passwords Are Not Matching</Message>
+                ) : (
+                  ""
+                )}
+                {formErrors.passwordContainUppercase === false ? (
+                  <Message negative>
+                    Password Must Contain atleast 1 Uppercase Letter
+                  </Message>
+                ) : (
+                  ""
+                )}
+                {formErrors.passwordContainLowerCase === false ? (
+                  <Message negative>
+                    Password Must Contain atleast 1 Lowercase Letter
+                  </Message>
+                ) : (
+                  ""
+                )}
+                {formErrors.passwordContainNumber === false ? (
+                  <Message negative>
+                    Password Must Contain atleast 1 Number
+                  </Message>
+                ) : (
+                  ""
+                )}
                 <Form.Field
                   label="About me"
                   control={TextArea}
@@ -247,6 +279,11 @@ class ApplicantRegister extends Component {
                   options={this.state.citiesData}
                   onChange={this.handleSelectCity}
                 />
+                {formErrors.cityIsSelected === false ? (
+                  <Message negative>Location Is Not Selected</Message>
+                ) : (
+                  ""
+                )}
 
                 <Form.Dropdown
                   label="Skills"
@@ -259,6 +296,11 @@ class ApplicantRegister extends Component {
                   required
                   placeholder="Select Skills"
                 />
+                {formErrors.skillsIsSelected === false ? (
+                  <Message negative>Skills Is Not Selected</Message>
+                ) : (
+                  ""
+                )}
 
                 <Form.Field
                   control={Input}
@@ -295,6 +337,11 @@ class ApplicantRegister extends Component {
                       onChange={this.handleChangeCheckBox}
                     />
                   </Form.Field>
+                  {formErrors.checkRightToWorkBox === false ? (
+                    <Message negative>Please Select One</Message>
+                  ) : (
+                    ""
+                  )}
                   {this.state.checkboxErr ? (
                     <Message> you have to choose</Message>
                   ) : null}

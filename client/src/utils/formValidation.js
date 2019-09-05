@@ -1,22 +1,3 @@
-// Single responsibility
-// Hide implementation details
-// if there are errors:
-
-// input: object representing the applciant (comes from state)
-
-// output: it will return an object like this:
-
-// {
-//    valid: false,
-//    passwordStrong: false,
-//    passwordMatch: false,
-//    emailValid: false
-// }
-
-// applicantEntries: {
-//   name, email, password, confirmPassword, about, city, skills, cvLink, value;
-// }
-
 const validatePasswordLength = password => {
   return password.length > 8;
 };
@@ -32,17 +13,16 @@ const validatePasswordContainLowercase = password => {
 const validatePasswordContainNumber = password => {
   return /[0-9]/.test(password);
 };
-
 const validateSelectedCity = city => {
   return city !== null;
 };
-const validateSelectedSkills = Skills => {
-  return Skills !== null;
+const validateSelectedSkills = skills => {
+  return skills && skills.length > 0;
 };
 const validateCheckedRightToWork = rightToWork => {
   return rightToWork === "Yes" || rightToWork === "No";
 };
-const validate = form => {
+const validateForm = form => {
   const { password, confirmPassword, city, skills, rightToWork } = form;
   const passwordLength = validatePasswordLength(password);
   const passwordIsMatching = validatePasswordMatching(
@@ -78,4 +58,4 @@ const validate = form => {
   };
 };
 
-export default validate;
+export default validateForm;

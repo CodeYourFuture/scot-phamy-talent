@@ -1,11 +1,11 @@
-import validate from "./formValidation";
+import validateForm from "./formValidation";
 describe("form to be valid", () => {
   it("should be 8 characters length", () => {
     const formData = {
       password: ""
     };
 
-    const result = validate(formData);
+    const result = validateForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.passwordLength).toEqual(false);
   });
@@ -16,7 +16,7 @@ describe("form to be valid", () => {
       confirmPassword: "abcdefghi"
     };
 
-    const result = validate(formData);
+    const result = validateForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.passwordLength).toEqual(true);
     expect(result.passwordIsMatching).toEqual(false);
@@ -29,7 +29,7 @@ describe("form to be valid", () => {
       confirmPassword: "ABCDEFGHIJ"
     };
 
-    const result = validate(formData);
+    const result = validateForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.passwordLength).toEqual(true);
     expect(result.passwordIsMatching).toEqual(true);
@@ -43,7 +43,7 @@ describe("form to be valid", () => {
       confirmPassword: "abcdEfghj"
     };
 
-    const result = validate(formData);
+    const result = validateForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.passwordLength).toEqual(true);
     expect(result.passwordIsMatching).toEqual(true);
@@ -59,7 +59,7 @@ describe("form to be valid", () => {
       city: null
     };
 
-    const result = validate(formData);
+    const result = validateForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.passwordLength).toEqual(true);
     expect(result.passwordIsMatching).toEqual(true);
@@ -73,10 +73,10 @@ describe("form to be valid", () => {
       password: "abcdEfghj1",
       confirmPassword: "abcdEfghj1",
       city: "Glasgow",
-      skills: null
+      skills: []
     };
 
-    const result = validate(formData);
+    const result = validateForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.passwordLength).toEqual(true);
     expect(result.passwordIsMatching).toEqual(true);
@@ -95,7 +95,7 @@ describe("form to be valid", () => {
       rightToWork: ""
     };
 
-    const result = validate(formData);
+    const result = validateForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.passwordLength).toEqual(true);
     expect(result.passwordIsMatching).toEqual(true);
@@ -115,7 +115,7 @@ describe("form to be valid", () => {
       rightToWork: "Yes"
     };
 
-    const result = validate(formData);
+    const result = validateForm(formData);
     expect(result.valid).toEqual(true);
     expect(result.passwordLength).toEqual(true);
     expect(result.passwordIsMatching).toEqual(true);
