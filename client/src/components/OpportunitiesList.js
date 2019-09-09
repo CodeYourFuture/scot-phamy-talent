@@ -257,17 +257,6 @@ class OpportunitiesList extends Component {
                   to={`/opportunities/${opportunity.opportunity_id}`}
                 >
                   <Card.Content>
-                    {/* <Image
-                    floated="right"
-                    size="mini"
-                    name={opportunity.opportunity_id}
-                    >
-                    <Icon
-                    name="ellipsis vertical"
-                    color="blue"
-                    onClick={this.handleSelectOpportunity}
-                    ></Icon>
-                  </Image> */}
                     <Card.Header>{opportunity.opportunity_title}</Card.Header>
                     <Card.Content textAlign="left">
                       contact Person: {opportunity.contact_person}
