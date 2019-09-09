@@ -238,56 +238,62 @@ class OpportunitiesList extends Component {
           <br></br>
         </Divider>
         <br />
-        <Grid>
-          {filterOpportunities({
-            selectedCity,
-            searchKeyWord,
-            selectedJobType,
-            opportunitiesList,
-            selectedSkills
-          }).map((opportunity, index) => (
-            <Card
-              centered
-              key={index}
-              raised
-              color="blue"
-              as={Link}
-              to={`/opportunities/${opportunity.opportunity_id}`}
-            >
-              <Card.Content>
-                <Image
-                  floated="right"
-                  size="mini"
-                  name={opportunity.opportunity_id}
+        <Grid stackable>
+          <Grid.Row columns={3} stretched>
+            {filterOpportunities({
+              selectedCity,
+              searchKeyWord,
+              selectedJobType,
+              opportunitiesList,
+              selectedSkills
+            }).map((opportunity, index) => (
+              <Grid.Column>
+                <Card
+                  centered
+                  key={index}
+                  raised
+                  color="blue"
+                  as={Link}
+                  to={`/opportunities/${opportunity.opportunity_id}`}
                 >
-                  <Icon
+                  <Card.Content>
+                    {/* <Image
+                    floated="right"
+                    size="mini"
+                    name={opportunity.opportunity_id}
+                    >
+                    <Icon
                     name="ellipsis vertical"
                     color="blue"
                     onClick={this.handleSelectOpportunity}
-                  ></Icon>
-                </Image>
-                <Card.Header>{opportunity.opportunity_title}</Card.Header>
-                <Card.Content textAlign="left">
-                  contact Person: {opportunity.contact_person}
-                </Card.Content>
-                <Card.Meta textAlign="left">
-                  <Icon name="calendar times" color="red"></Icon>
-                  {moment(opportunity.date).format("DD MMM YYYY")}{" "}
-                </Card.Meta>
-              </Card.Content>
-              <Card.Content>
-                <Card.Description
-                  style={{
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden"
-                  }}
-                >
-                  {opportunity.description}
-                </Card.Description>
-              </Card.Content>
-            </Card>
-          ))}
+                    ></Icon>
+                  </Image> */}
+                    <Card.Header>{opportunity.opportunity_title}</Card.Header>
+                    <Card.Content textAlign="left">
+                      contact Person: {opportunity.contact_person}
+                    </Card.Content>
+                    <Card.Meta textAlign="right">
+                      <Icon name="calendar times" color="red"></Icon>
+                      {moment(opportunity.date).format("DD MMM YYYY")}{" "}
+                    </Card.Meta>
+                  </Card.Content>
+                  <Card.Content>
+                    <Card.Description
+                      style={{
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden"
+                      }}
+                    >
+                      {opportunity.description}
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+                <br></br>
+              </Grid.Column>
+            ))}
+            <Divider></Divider>
+          </Grid.Row>
         </Grid>
       </div>
     );
