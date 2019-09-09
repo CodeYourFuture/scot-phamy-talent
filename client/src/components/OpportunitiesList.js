@@ -10,6 +10,7 @@ import {
   Image,
   Divider
 } from "semantic-ui-react";
+import moment from "moment";
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
@@ -270,7 +271,8 @@ class OpportunitiesList extends Component {
                   contact Person: {opportunity.contact_person}
                 </Card.Content>
                 <Card.Meta textAlign="left">
-                  Expire at:{opportunity.date}{" "}
+                  <Icon name="calendar times" color="red"></Icon>
+                  {moment(opportunity.date).format("DD MMM YYYY")}{" "}
                 </Card.Meta>
               </Card.Content>
               <Card.Content>
