@@ -118,17 +118,15 @@ class OpportunitiesList extends Component {
     return (
       <div>
         <Form>
-          <Form.Field
-            control={Input}
+          <Input
+            fluid
+            style={{ color: "rgb(22, 135, 219)" }}
             placeholder="What are you looking for ?"
             value={searchKeyWord}
             name="search"
-            iconPosition="right"
+            icon="search"
             onChange={this.handleChangeSearchKeyWord}
-          >
-            <Icon name="search" color="blue" />
-            <input />
-          </Form.Field>
+          />
 
           <Header as="h4">
             <Icon name="map marker alternate" size="large" color="blue" />
@@ -166,9 +164,7 @@ class OpportunitiesList extends Component {
           handelSelectJobType={this.handelSelectJobType}
           selectedJobType={selectedJobType}
         />
-        <Divider>
-          <br></br>
-        </Divider>
+        <Divider />
         <br />
         {!filteredOpportunities.length ? (
           <Message negative>
