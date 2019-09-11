@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Header, Icon } from "semantic-ui-react";
 
-export default class OpportunityTypeCard extends Component {
+export default class OpportunityTypeFilters extends Component {
   render() {
     const { selectedJobType, handelSelectJobType } = this.props;
     return (

@@ -12,9 +12,9 @@ import {
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
-import OpportunityTypeCard from "./OpportunityTypeCard";
+import OpportunityTypeFilters from "./OpportunityTypeFilters";
 import filterOpportunities from "../utils/filterOpportunities";
-import OpportunitiesCard from "./OpportunitiesCard";
+import OpportunityCard from "./OpportunityCard";
 import { Link } from "react-router-dom";
 
 class OpportunitiesList extends Component {
@@ -161,7 +161,7 @@ class OpportunitiesList extends Component {
         </Form>
         <Header textAlign="left">Job Type</Header>
 
-        <OpportunityTypeCard
+        <OpportunityTypeFilters
           handelSelectJobType={this.handelSelectJobType}
           selectedJobType={selectedJobType}
         />
@@ -183,7 +183,7 @@ class OpportunitiesList extends Component {
                 as={Link}
                 to={`/opportunities/${opportunity.opportunity_id}`}
               >
-                <OpportunitiesCard opportunity={opportunity} />
+                <OpportunityCard opportunity={opportunity} />
                 <br></br>
               </Grid.Column>
             ))}

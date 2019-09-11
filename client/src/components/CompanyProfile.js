@@ -12,7 +12,7 @@ import {
 } from "semantic-ui-react";
 import { getCompanyProfile } from "../api/companyProfile";
 import { getOpportunitiesByCompanyId } from "../api/opportunities";
-import OpportunitiesCard from "./OpportunitiesCard";
+import OpportunityCard from "./OpportunityCard";
 const options = [
   {
     key: 1,
@@ -85,11 +85,11 @@ class CompanyProfile extends React.Component {
     this.getOpportunitiesForCompanyProfileByCompanyId();
   }
 
-  HandleEditOpportunity = () => {
+  handleEditOpportunity = () => {
     return "/company/manage-profile";
   };
 
-  HandleDeleteOpportunity = () => {
+  handleDeleteOpportunity = () => {
     return "....";
   };
 
@@ -138,11 +138,11 @@ class CompanyProfile extends React.Component {
           <Grid.Row columns={3} stretched>
             {opportunitiesArray.map(opportunity => (
               <Grid.Column key={opportunity.opportunity_id}>
-                <OpportunitiesCard
+                <OpportunityCard
                   opportunity={opportunity}
                   options={true}
-                  HandleDeleteOpportunity={this.HandleDeleteOpportunity}
-                  HandleEditOpportunity={this.HandleEditOpportunity}
+                  handleDeleteOpportunity={this.handleDeleteOpportunity}
+                  handleEditOpportunity={this.handleEditOpportunity}
                 />
 
                 <br></br>

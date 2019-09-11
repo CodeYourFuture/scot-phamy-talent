@@ -4,8 +4,8 @@ import moment from "moment";
 export default ({
   opportunity,
   options,
-  HandleDeleteOpportunity,
-  HandleEditOpportunity
+  handleDeleteOpportunity,
+  handleEditOpportunity
 }) => (
   <Card centered raised color="blue">
     <Card.Content>
@@ -32,10 +32,10 @@ export default ({
         <Card.Content extra>
           <Divider></Divider>
           <div className="ui two buttons">
-            <Button basic color="green" onClick={HandleEditOpportunity}>
+            <Button basic color="green" onClick={handleEditOpportunity}>
               Edit
             </Button>
-            <Button basic color="red" onClick={HandleDeleteOpportunity}>
+            <Button basic color="red" onClick={handleDeleteOpportunity}>
               Delete
             </Button>
           </div>
