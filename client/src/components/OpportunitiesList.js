@@ -15,6 +15,7 @@ import { getCities } from "../api/cities";
 import OpportunityTypeCard from "./OpportunityTypeCard";
 import filterOpportunities from "../utils/filterOpportunities";
 import OpportunitiesCard from "./OpportunitiesCard";
+import { Link } from "react-router-dom";
 
 class OpportunitiesList extends Component {
   state = {
@@ -176,8 +177,12 @@ class OpportunitiesList extends Component {
         ) : null}
         <Grid stackable>
           <Grid.Row columns={3} stretched>
-            {filteredOpportunities.map((opportunity, index) => (
-              <Grid.Column key={opportunity.opportunity_id}>
+            {filteredOpportunities.map(opportunity => (
+              <Grid.Column
+                key={opportunity.opportunity_id}
+                as={Link}
+                to={`/opportunities/${opportunity.opportunity_id}`}
+              >
                 <OpportunitiesCard opportunity={opportunity} />
                 <br></br>
               </Grid.Column>
