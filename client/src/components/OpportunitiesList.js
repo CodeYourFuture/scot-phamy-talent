@@ -128,36 +128,42 @@ class OpportunitiesList extends Component {
             icon="search"
             onChange={this.handleChangeSearchKeyWord}
           />
-
-          <Header as="h4">
-            <Icon name="map marker alternate" size="large" color="blue" />
-            <Header.Content>
-              Location{" "}
-              <Dropdown
-                inline
-                header="Location"
-                options={cities}
-                multiple
-                onChange={this.handleSelectCity}
-                placeholder="Search city"
-              />
-            </Header.Content>
-          </Header>
-          <Header as="h4">
-            <Icon name="check" size="large" color="blue" />
-            <Header.Content>
-              Skills{" "}
-              <Dropdown
-                inline
-                header="SKills"
-                onChange={this.handleSelectSkill}
-                options={skills}
-                onClose={this.filteringOpportunitiesBySkills}
-                multiple
-                placeholder="Select skills"
-              />
-            </Header.Content>
-          </Header>
+          <br />
+          <Grid stackable columns={2}>
+            <Grid.Column>
+              <Header as="h4">
+                <Icon name="map marker alternate" size="large" color="blue" />
+                <Header.Content>
+                  Location{" "}
+                  <Dropdown
+                    inline
+                    header="Location"
+                    options={cities}
+                    multiple
+                    onChange={this.handleSelectCity}
+                    placeholder="Search city"
+                  />
+                </Header.Content>
+              </Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header as="h4">
+                <Icon name="check" size="large" color="blue" />
+                <Header.Content>
+                  Skills{" "}
+                  <Dropdown
+                    inline
+                    header="SKills"
+                    onChange={this.handleSelectSkill}
+                    options={skills}
+                    onClose={this.filteringOpportunitiesBySkills}
+                    multiple
+                    placeholder="Select skills"
+                  />
+                </Header.Content>
+              </Header>
+            </Grid.Column>
+          </Grid>
         </Form>
         <Header textAlign="left">Job Type</Header>
 
