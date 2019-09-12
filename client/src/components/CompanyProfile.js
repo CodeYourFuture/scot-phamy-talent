@@ -62,29 +62,34 @@ class CompanyProfile extends React.Component {
     industry: "",
     contact: "",
     date: "",
-    companyId: null
+    companyId: "",
+    userId: null
   };
 
   componentWillMount() {
+    this.getCompanyIdFromUserId();
     const { pathname } = window.location;
     this.setState({
       companyId: pathname && pathname.replace("/company-profile/", "")
     });
   }
   componentDidMount() {
-    const { companyId } = this.state; // will get company id from company login
-    getCompanyProfile(companyId).then(data => {
-      this.setState({
-        companyName: data.company_name,
-        aboutCompany: data.company_description,
-        industry: data.industry,
-        opportunityTitle: data.opportunity_title,
-        contactName: data.contact_person,
-        date: data.date,
-        opportunityDescription: data.opportunity_description,
-        contact: data.email
-      });
-    });
+    const { userId } = this.state; // will get company id from company login
+    setInterval(
+      getCompanyProfile(userId).then(data => {
+        this.setState({
+          companyName: data.company_name,
+          aboutCompany: data.company_description,
+          industry: data.industry,
+          opportunityTitle: data.opportunity_title,
+          contactName: data.contact_person,
+          date: data.date,
+          opportunityDescription: data.opportunity_description,
+          contact: data.email
+        });
+      }),
+      1000
+    );
   }
 
   handleClickEdit = () => {
@@ -96,6 +101,11 @@ class CompanyProfile extends React.Component {
     return "....";
   };
 
+  getCompanyIdFromUserId = () => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const userId = userData.user_id;
+    this.setState({ userId: userId });
+  };
   render() {
     return (
       <Container text style={{ marginTop: "4em" }} border={{}} align="center">
