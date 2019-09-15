@@ -13,6 +13,8 @@ import {
 } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { getItemFromLocalStorage } from "../utils/storage";
+
 export default class OpportunityView extends Component {
   constructor(props) {
     super(props);
@@ -56,8 +58,8 @@ export default class OpportunityView extends Component {
   //Handlers
 
   render() {
-    const token = localStorage.getItem("token");
-    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    const token = getItemFromLocalStorage().token;
+    const loggedInUser = getItemFromLocalStorage().user;
     const { opportunity, isLoading } = this.state;
     return (
       <React.Fragment>
@@ -121,7 +123,7 @@ export default class OpportunityView extends Component {
                 Company Name:{opportunity.company_name}
               </Header>
             </Link>
-            {localStorage.getItem("token") ? (
+            {getItemFromLocalStorage() ? (
               <Item.Group>
                 <Item.Description as="h4" color="blue">
                   <Icon name="address card outline" color="blue"></Icon>
