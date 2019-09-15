@@ -1,8 +1,7 @@
-export const saveDataToLocalStorage = data =>
+export const saveLoggedInUserData = data =>
   localStorage.setItem("userData", JSON.stringify(data));
 
-export const getItemFromLocalStorage = () =>
+export const getLoggedInUserData = () =>
   JSON.parse(localStorage.getItem("userData"));
 
-export const removeItemFromLocalStorage = () =>
-  localStorage.removeItem("userData");
+export const removeUserDataOnLogout = () => localStorage.removeItem("userData");

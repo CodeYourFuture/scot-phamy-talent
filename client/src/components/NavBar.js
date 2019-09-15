@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import { Menu, Icon, Dropdown } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import SideBarMenu from "./SideBar";
-import {
-  getItemFromLocalStorage,
-  removeItemFromLocalStorage
-} from "../utils/storage";
+import { getLoggedInUserData, removeUserDataOnLogout } from "../utils/storage";
 
 class NavBar extends Component {
   state = {
@@ -30,7 +27,7 @@ class NavBar extends Component {
   //logOut function
   logout = event => {
     event.preventDefault();
-    removeItemFromLocalStorage();
+    removeUserDataOnLogout();
     document.location.reload();
   };
 
@@ -55,7 +52,7 @@ class NavBar extends Component {
           <Menu.Item position="left">
             <Menu.Header as="h4">{activeItem}</Menu.Header>
           </Menu.Item>
-          {getItemFromLocalStorage() ? (
+          {getLoggedInUserData() ? (
             <Menu.Item
               name="Logout"
               active={activeItem === "Logout"}

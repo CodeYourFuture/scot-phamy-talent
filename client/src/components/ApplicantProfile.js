@@ -16,7 +16,7 @@ import {
   getApplicantProfileByUserId,
   getSkillsList
 } from "../api/applicantProfile";
-import { getItemFromLocalStorage } from "../utils/storage";
+import { getLoggedInUserData } from "../utils/storage";
 
 const options = [
   {
@@ -58,7 +58,7 @@ class ApplicantProfile extends React.Component {
   };
   // Get data from db
   componentWillMount() {
-    const loggedInUser = getItemFromLocalStorage().user;
+    const loggedInUser = getLoggedInUserData().user;
     const userId = loggedInUser.user_id;
     this.setState({ userId: userId });
   }

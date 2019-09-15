@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import { Button, Form, Grid, Header, List, Message } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { signApi } from "../api/auth";
-import {
-  getItemFromLocalStorage,
-  saveDataToLocalStorage
-} from "../utils/storage";
+import { getLoggedInUserData, saveLoggedInUserData } from "../utils/storage";
 
 export default class Login extends Component {
   state = {
@@ -26,7 +23,7 @@ export default class Login extends Component {
   singIn = () => {
     signApi(this.state.email, this.state.password)
       .then(userData => {
-        saveDataToLocalStorage(userData);
+        saveLoggedInUserData(userData);
         document.location.reload();
       })
       .catch(err => {
@@ -37,7 +34,7 @@ export default class Login extends Component {
   render() {
     const { email, password, error } = this.state;
     const { singIn, handleSubmit, handleChange } = this;
-    if (getItemFromLocalStorage()) {
+    if (getLoggedInUserData()) {
       return <Message positive>You are Log in. WELCOME!</Message>;
     } else
       return (
