@@ -4,4 +4,4 @@ export const saveLoggedInUserData = data =>
 export const getLoggedInUserData = () =>
   JSON.parse(localStorage.getItem("userData"));
 
-export const removeUserDataOnLogout = () => localStorage.removeItem("userData");
+export const removeUserData = () => localStorage.removeItem("userData");
