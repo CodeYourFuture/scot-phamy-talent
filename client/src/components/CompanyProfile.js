@@ -72,8 +72,6 @@ class CompanyProfile extends React.Component {
   getCompanyProfileData = () => {
     const { userId } = this.state; // will get company id from company login
     getCompanyProfile(userId).then(companyData => {
-      console.log(companyData);
-
       this.setState({ companyData: companyData });
     });
   };
@@ -92,8 +90,6 @@ class CompanyProfile extends React.Component {
   };
 
   render() {
-    console.log(this.state.userId);
-
     const { companyData, opportunitiesArray } = this.state;
     return (
       <React.Fragment>
