@@ -15,8 +15,6 @@ export default class ApplicantsList extends React.Component {
     });
   }
   render() {
-    console.log(this.state.applicantsList);
-
     return (
       <div>
         {this.state.applicantsList.map(applicant => (
