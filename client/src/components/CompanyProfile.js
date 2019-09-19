@@ -60,6 +60,7 @@ class CompanyProfile extends React.Component {
   };
 
   componentWillMount() {
+    this.getCompanyIdFromUserId();
     const { pathname } = window.location;
     this.setState({
       companyId: pathname && pathname.replace("/company-profile/", "")
@@ -93,6 +94,11 @@ class CompanyProfile extends React.Component {
     return "....";
   };
 
+  getCompanyIdFromUserId = () => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const userId = userData.user_id;
+    this.setState({ userId: userId });
+  };
   render() {
     const { companyData, opportunitiesArray } = this.state;
     return (
