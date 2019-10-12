@@ -1,13 +1,16 @@
 import React from "react";
 import { Button, Header, Segment, Image, Grid, Icon } from "semantic-ui-react";
+import { getLoggedInUserData } from "../../utils/storage";
+import MatchingOpportunitiesAndApplicant from "../Matching&Home&Landing/MatchingOpportunitiesAndApplicants";
 
-export default ({ skills, applicantData }) => {
+export default ({ skills, applicantData, opportunitiesList }) => {
   return (
     <div>
       <Segment inverted color="blue">
         <Segment inverted color="blue"></Segment>
-        <Grid centered>
+        <Grid centered style={{ hight: "25px" }}>
           <Image
+            className="set-image-width-and-height"
             src={
               applicantData.profile_picture
                 ? applicantData.profile_picture
@@ -29,22 +32,22 @@ export default ({ skills, applicantData }) => {
           </Grid>
         </Segment>
       </Segment>
-      <Grid left stackable columns={2}>
+      <Grid stackable columns={2}>
         <Grid.Column>
           <Header as="h3">
-            <Icon name="briefcase" size="mini" color="white" />
+            <Icon name="briefcase" size="mini" />
             About: {applicantData && applicantData.about}
           </Header>
           <br></br>
-          <Grid left>
+          <Grid>
             <Header as="h3">
-              <Icon name="map marker alternate" size="mini" color="white" />
+              <Icon name="map marker alternate" size="mini" />
               City: {applicantData && applicantData.city}
             </Header>
           </Grid>
           <br></br>
           <br></br>
-          <Grid left>
+          <Grid>
             <Header as="h3">
               Skills:
               {skills &&
@@ -53,7 +56,7 @@ export default ({ skills, applicantData }) => {
           </Grid>
           <br></br>
           <br></br>
-          <Grid left>
+          <Grid>
             <Header as="h3">
               <Icon name="mail" size="mini" color="red" />
               Email: {applicantData && applicantData.email}
@@ -61,7 +64,7 @@ export default ({ skills, applicantData }) => {
           </Grid>
           <br></br>
           <br></br>
-          <Grid left>
+          <Grid>
             <Header as="h3">
               <Icon name="linkify" size="mini" color="blue" />
               CV Link: {applicantData && applicantData.cvlink}
@@ -69,7 +72,7 @@ export default ({ skills, applicantData }) => {
           </Grid>
           <br></br>
           <br></br>
-          <Grid left>
+          <Grid>
             <Header as="h3">
               <Icon name="legal" size="mini" color="red" />
               Right to work:{" "}
@@ -86,6 +89,13 @@ export default ({ skills, applicantData }) => {
           </a>
         </Segment>
       </Grid>
+      {getLoggedInUserData() &&
+        getLoggedInUserData().user.role === "company" && (
+          <MatchingOpportunitiesAndApplicant
+            skills={skills}
+            opportunitiesList={opportunitiesList}
+          />
+        )}
     </div>
   );
 };

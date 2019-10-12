@@ -3,8 +3,9 @@ import { Button, Form, Grid, Header, List } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { signApi } from "../api/auth";
 import { getLoggedInUserData, saveLoggedInUserData } from "../utils/storage";
-import MatchingApplicantsAndOpportunities from "./MatchingApplicantsAndOppotunities";
-import ApplicantsList from "./ApplicantsList";
+import MatchingApplicantsAndOpportunities from "./Matching&Home&Landing/MatchingApplicantsAndOppotunities";
+import AdminProfiles from "./Admin/AdminProfiles";
+import ApplicantsList from "./Applicant/ApplicantsList";
 export default class Login extends Component {
   state = {
     email: "",
@@ -47,6 +48,12 @@ export default class Login extends Component {
         getLoggedInUserData().user.role === "company"
       ) {
         return <ApplicantsList />;
+      }
+      if (
+        getLoggedInUserData() &&
+        getLoggedInUserData().user.role === "admin"
+      ) {
+        return <AdminProfiles />;
       } else {
         return (
           <Grid
@@ -96,7 +103,7 @@ export default class Login extends Component {
               </Form>
               <List divided horizontal>
                 <List.Item>
-                  <List.Content as={Link} to="/main-register">
+                  <List.Content as={Link} to="/">
                     Create an Account?
                   </List.Content>
                   <List.Content as={Link} to="/reset-password">
